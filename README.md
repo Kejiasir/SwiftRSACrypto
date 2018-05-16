@@ -52,7 +52,7 @@ SwiftRSACrypto.rsa_generate_key({ (keyPair, isExist) in
             }
         }
         /// 私钥加密 -> 公钥解密
-        if let enStr = SwiftRSACrypto.privateEncrypt(keyPair, decryptStr: "Hello World!") {
+        if let enStr = SwiftRSACrypto.privateEncrypt(keyPair, encryptStr: "Hello World!") {
             if let deStr = SwiftRSACrypto.publicDecrypt(keyPair, decryptStr: enStr) {
                 print("加密后的密文: \(enStr)")
                 print("解密后的原文: \(deStr)")
@@ -92,7 +92,7 @@ public class func rsa_generate_key(_ callback: KeyPairExist, ofKeySize keySize: 
 ///   - keyPair: 密钥对模型
 ///   - dataStr: 需加密的字符串
 /// - Returns: 返回加密后的密文字符串
-public class func privateEncrypt(_ keyPair: MIHKeyPair, decryptStr dataStr: String) -> String?
+public class func privateEncrypt(_ keyPair: MIHKeyPair, encryptStr dataStr: String) -> String?
 
 /// 公钥解密
 ///
