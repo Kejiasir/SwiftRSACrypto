@@ -45,7 +45,7 @@ import UIKit
 class ViewController: UIViewController {
     
     override func viewDidLoad() {
-        super.viewDidLoad()
+        super.viewDidLoad() 
     }
     
     // MARK: - 生成秘钥对
@@ -90,7 +90,7 @@ class ViewController: UIViewController {
         /// 从偏好设置中读取秘钥对
         SwiftRSACrypto.unarchiverKeyPair { (keyPair) in
             if let keyPair = keyPair {
-                if let enStr = SwiftRSACrypto.privateEncrypt(keyPair, decryptStr: "arvin 是我！") {
+                if let enStr = SwiftRSACrypto.privateEncrypt(keyPair, encryptStr: "arvin 是我！") {
                     if let deStr = SwiftRSACrypto.publicDecrypt(keyPair, decryptStr: enStr) {
                         print("加密后的密文: \(enStr)")
                         print("解密后的原文: \(deStr)")
@@ -158,7 +158,7 @@ class ViewController: UIViewController {
             print("$0 = \($0?.public)")
             print("$0 = \($0?.private)")
             /// 秘钥对中只返回了私钥，使用私钥加密
-            if let enStr = SwiftRSACrypto.privateEncrypt($0!, decryptStr: "🇨🇳🌹🐒") {
+            if let enStr = SwiftRSACrypto.privateEncrypt($0!, encryptStr: "🇨🇳🌹🐒") {
                 print("加密后的密文: \(enStr)")
             }
         }, publicKey: nil, privateKey: kPrivateKey)
@@ -179,7 +179,7 @@ class ViewController: UIViewController {
             }
             
             /// 私钥加密，公钥解密
-            if let enStr = SwiftRSACrypto.privateEncrypt(keyPair!, decryptStr: "你好，世界！") {
+            if let enStr = SwiftRSACrypto.privateEncrypt(keyPair!, encryptStr: "你好，世界！") {
                 if let deStr = SwiftRSACrypto.publicDecrypt(keyPair!, decryptStr: enStr) {
                     print("加密后的密文: \(enStr)")
                     print("解密后的原文: \(deStr)")

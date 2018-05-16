@@ -66,7 +66,7 @@ class SwiftRSACrypto: NSObject {
     ///   - keyPair: 密钥对模型
     ///   - dataStr: 需加密的字符串
     /// - Returns: 返回加密后的密文字符串
-    public class func privateEncrypt(_ keyPair: MIHKeyPair, decryptStr dataStr: String) -> String? {
+    public class func privateEncrypt(_ keyPair: MIHKeyPair, encryptStr dataStr: String) -> String? {
         if let data = dataStr.data(using: .utf8) {
             if let p = keyPair.private {
                 if let encryptData = try? p.encrypt(data) {
