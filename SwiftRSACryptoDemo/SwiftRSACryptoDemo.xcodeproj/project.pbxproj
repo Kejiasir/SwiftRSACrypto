@@ -42,6 +42,7 @@
 		81DB9D8F20AC0024006424E7 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 81DB9D8D20AC0023006424E7 /* libssl.a */; };
 		81DB9D9420AC01FE006424E7 /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DB9D9220AC01FE006424E7 /* GTMBase64.m */; };
 		81DB9D9620AC20CD006424E7 /* Build-Settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 81DB9D9520AC20CD006424E7 /* Build-Settings.png */; };
+		81DB9D9820AC273A006424E7 /* Linked-Frameworks-and-Libraries.png in Resources */ = {isa = PBXBuildFile; fileRef = 81DB9D9720AC273A006424E7 /* Linked-Frameworks-and-Libraries.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -193,6 +194,7 @@
 		81DB9D9220AC01FE006424E7 /* GTMBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMBase64.m; sourceTree = "<group>"; };
 		81DB9D9320AC01FE006424E7 /* GTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMDefines.h; sourceTree = "<group>"; };
 		81DB9D9520AC20CD006424E7 /* Build-Settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Build-Settings.png"; sourceTree = "<group>"; };
+		81DB9D9720AC273A006424E7 /* Linked-Frameworks-and-Libraries.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Linked-Frameworks-and-Libraries.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -234,6 +236,7 @@
 				81DB9CCF20ABDF4C006424E7 /* Assets.xcassets */,
 				81DB9CD120ABDF4C006424E7 /* LaunchScreen.storyboard */,
 				81DB9CDC20ABE39F006424E7 /* SwiftRSACryptoDemo-Bridging-Header.h */,
+				81DB9D9720AC273A006424E7 /* Linked-Frameworks-and-Libraries.png */,
 				81DB9D9520AC20CD006424E7 /* Build-Settings.png */,
 				81DB9CD420ABDF4C006424E7 /* Info.plist */,
 			);
@@ -542,6 +545,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				81DB9D9820AC273A006424E7 /* Linked-Frameworks-and-Libraries.png in Resources */,
 				81DB9CDB20ABDF81006424E7 /* Main.storyboard in Resources */,
 				81DB9CD320ABDF4C006424E7 /* LaunchScreen.storyboard in Resources */,
 				81DB9CD020ABDF4C006424E7 /* Assets.xcassets in Resources */,
