@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="SwiftRSACryptoDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zSj-qU-aXZ">
+                                <rect key="frame" x="67.5" y="180" width="240" height="40"/>
+                                <color key="backgroundColor" red="0.08768503289" green="0.77706106090000004" blue="0.079152960529999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="240" id="4AE-rf-2GW"/>
+                                    <constraint firstAttribute="height" constant="40" id="y6n-mW-gWg"/>
+                                </constraints>
+                                <state key="normal" title=" 公钥加密-&gt;私钥解密"/>
+                                <connections>
+                                    <action selector="publicEncrypt:" destination="BYZ-38-t0r" eventType="touchUpInside" id="C2l-c7-ONb"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="brT-Tf-rPb">
+                                <rect key="frame" x="67.5" y="270" width="240" height="40"/>
+                                <color key="backgroundColor" red="0.08768503289" green="0.77706106090000004" blue="0.079152960529999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="私钥加密-&gt;公钥解密"/>
+                                <connections>
+                                    <action selector="privateEncrypt:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Rsf-Bi-u70"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n6S-19-raf">
+                                <rect key="frame" x="67" y="340" width="240" height="40"/>
+                                <color key="backgroundColor" red="0.08768503289" green="0.77706106090000004" blue="0.079152960529999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="获取秘钥字符串"/>
+                                <connections>
+                                    <action selector="getKeyPair:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7U7-kZ-Kwr"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jeK-c2-pOn">
+                                <rect key="frame" x="67" y="410" width="240" height="40"/>
+                                <color key="backgroundColor" red="0.08768503289" green="0.77706106090000004" blue="0.079152960529999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="获取格式化后的秘钥字符串"/>
+                                <connections>
+                                    <action selector="getFmKeyPair:" destination="BYZ-38-t0r" eventType="touchUpInside" id="eq8-Xq-1Co"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QLy-7h-RvH">
+                                <rect key="frame" x="67" y="550" width="240" height="40"/>
+                                <color key="backgroundColor" red="0.08768503289" green="0.77706106090000004" blue="0.079152960529999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="私钥签名-&gt;公钥验签"/>
+                                <connections>
+                                    <action selector="privateSign:" destination="BYZ-38-t0r" eventType="touchUpInside" id="rMF-IU-GX0"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T0e-AW-irc">
+                                <rect key="frame" x="147.5" y="100" width="80" height="40"/>
+                                <color key="backgroundColor" red="1" green="0.45098039220000002" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="ipr-wM-02B"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="ngW-QC-lgH"/>
+                                </constraints>
+                                <state key="normal" title="生成密钥对"/>
+                                <connections>
+                                    <action selector="create_rsa:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Nxh-mh-Yfd"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TwF-w2-hq0">
+                                <rect key="frame" x="67" y="480" width="240" height="40"/>
+                                <color key="backgroundColor" red="0.08768503289" green="0.77706106090000004" blue="0.079152960529999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="设置服务器返回的秘钥并加解密"/>
+                                <connections>
+                                    <action selector="setKey_with_servers:" destination="BYZ-38-t0r" eventType="touchUpInside" id="y6H-7Y-UuA"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="QLy-7h-RvH" firstAttribute="width" secondItem="TwF-w2-hq0" secondAttribute="width" id="3uX-HU-pjf"/>
+                            <constraint firstItem="brT-Tf-rPb" firstAttribute="height" secondItem="zSj-qU-aXZ" secondAttribute="height" id="4Rk-o4-Gde"/>
+                            <constraint firstItem="jeK-c2-pOn" firstAttribute="centerX" secondItem="n6S-19-raf" secondAttribute="centerX" id="5tz-Ix-jTh"/>
+                            <constraint firstItem="QLy-7h-RvH" firstAttribute="height" secondItem="TwF-w2-hq0" secondAttribute="height" id="6sU-GN-2bJ"/>
+                            <constraint firstItem="jeK-c2-pOn" firstAttribute="top" secondItem="n6S-19-raf" secondAttribute="bottom" constant="30" id="7aY-Qt-yqL"/>
+                            <constraint firstItem="TwF-w2-hq0" firstAttribute="height" secondItem="jeK-c2-pOn" secondAttribute="height" id="8Q3-FO-s1m"/>
+                            <constraint firstItem="TwF-w2-hq0" firstAttribute="centerX" secondItem="jeK-c2-pOn" secondAttribute="centerX" id="Byq-i6-0T4"/>
+                            <constraint firstItem="T0e-AW-irc" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="100" id="GVm-Kw-Ccj"/>
+                            <constraint firstItem="n6S-19-raf" firstAttribute="top" secondItem="brT-Tf-rPb" secondAttribute="bottom" constant="30" id="GnP-D9-IkW"/>
+                            <constraint firstItem="QLy-7h-RvH" firstAttribute="top" secondItem="TwF-w2-hq0" secondAttribute="bottom" constant="30" id="Imk-zj-sks"/>
+                            <constraint firstItem="brT-Tf-rPb" firstAttribute="top" secondItem="zSj-qU-aXZ" secondAttribute="bottom" constant="50" id="JeW-Ut-XVT"/>
+                            <constraint firstItem="brT-Tf-rPb" firstAttribute="centerX" secondItem="zSj-qU-aXZ" secondAttribute="centerX" id="MUi-36-Yo8"/>
+                            <constraint firstItem="brT-Tf-rPb" firstAttribute="width" secondItem="zSj-qU-aXZ" secondAttribute="width" id="O6Z-bo-GYf"/>
+                            <constraint firstItem="n6S-19-raf" firstAttribute="centerX" secondItem="brT-Tf-rPb" secondAttribute="centerX" id="OB1-Xb-yAk"/>
+                            <constraint firstItem="zSj-qU-aXZ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="RoS-eq-vDd"/>
+                            <constraint firstItem="n6S-19-raf" firstAttribute="width" secondItem="brT-Tf-rPb" secondAttribute="width" id="THb-bf-lrY"/>
+                            <constraint firstItem="TwF-w2-hq0" firstAttribute="top" secondItem="jeK-c2-pOn" secondAttribute="bottom" constant="30" id="eIJ-1e-Tmp"/>
+                            <constraint firstItem="jeK-c2-pOn" firstAttribute="width" secondItem="n6S-19-raf" secondAttribute="width" id="eWl-Xt-Ngg"/>
+                            <constraint firstItem="zSj-qU-aXZ" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="180" id="fKU-f3-yRX"/>
+                            <constraint firstItem="T0e-AW-irc" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="fOP-G1-2YH"/>
+                            <constraint firstItem="jeK-c2-pOn" firstAttribute="height" secondItem="n6S-19-raf" secondAttribute="height" id="kpQ-Po-WEj"/>
+                            <constraint firstItem="QLy-7h-RvH" firstAttribute="centerX" secondItem="TwF-w2-hq0" secondAttribute="centerX" id="rfb-UI-ked"/>
+                            <constraint firstItem="n6S-19-raf" firstAttribute="height" secondItem="brT-Tf-rPb" secondAttribute="height" id="uzM-Io-lR2"/>
+                            <constraint firstItem="TwF-w2-hq0" firstAttribute="width" secondItem="jeK-c2-pOn" secondAttribute="width" id="x4N-1t-kNB"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="268" y="100.29985007496252"/>
+        </scene>
+    </scenes>
+</document>
