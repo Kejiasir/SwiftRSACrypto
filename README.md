@@ -10,9 +10,18 @@
 
 ***不支持 cocoapods 安装，因为里面有两个 `.a静态库` 不能通过 cocoapods 验证***
 
+#### 手动安装：
+
 * clone 本项目，将项目中的 `SwiftRSACrypto` 文件夹拷贝到你的项目
 
 * 在 `Linked Frameworks and Libraries` 中添加 `libssl.a` 和 `libcrypto.a` 这两个静态库
+
+<table>  </table>
+    <table> 
+         <td>
+            <img src="SwiftRSACryptoDemo/SwiftRSACryptoDemo/Linked-Frameworks-and-Libraries.png" width="800"/>
+         </td> 
+     </table>
 
 * 如果你的是 swift 混编 oc 的项目，想必已经创建了 `PeojectName-Bridging-Header.h` 这个桥接文件
     * 在 `PeojectName-Bridging-Header.h` 桥接文件中 `#import "RSABridgingHeader.h"` 即可
@@ -35,7 +44,7 @@
 
 ```swift
 
-// MARK: - 生成秘钥对
+    // MARK: - 生成秘钥对
     
     /// 生成RSA密钥对
     ///
