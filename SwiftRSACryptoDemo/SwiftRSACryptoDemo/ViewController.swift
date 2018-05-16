@@ -220,22 +220,3 @@ class ViewController: UIViewController {
         
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
