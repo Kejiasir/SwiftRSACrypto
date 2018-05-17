@@ -60,6 +60,30 @@ SwiftRSACrypto.rsa_generate_key({ (keyPair, isExist) in
         }
     }
 }, archiverFileName: nil)
+
+
+let publicKey = """ /* 服务器返回的公钥字符串 */ """
+let privateKey = """ /* 服务器返回的私钥字符串 */ """
+
+/// 设置公钥&&私钥，可以单独设置（一般情况服务器只会给客户端下发公钥）
+SwiftRSACrypto.keyPair({ (keyPair) in
+    if let keyPair = keyPair {
+        /// 公钥加密 -> 私钥解密
+        if let enStr = SwiftRSACrypto.publicEncrypt(keyPair, encryptStr: "Hello World!") {
+            if let deStr = SwiftRSACrypto.privateDecrypt(keyPair, decryptStr: enStr) {
+                print("加密后的密文: \(enStr)")
+                print("解密后的原文: \(deStr)")
+            }
+        }
+        /// 私钥加密 -> 公钥解密
+        if let enStr = SwiftRSACrypto.privateEncrypt(keyPair, encryptStr: "Hello World!") {
+            if let deStr = SwiftRSACrypto.publicDecrypt(keyPair, decryptStr: enStr) {
+                print("加密后的密文: \(enStr)")
+                print("解密后的原文: \(deStr)")
+            }
+        }
+    }
+}, publicKey: publicKey, privateKey: privateKey)
 ```
 * 更多示例可以下载 Demo 查看
 
@@ -230,6 +254,7 @@ public class func sha256_signature(_ keyPair: MIHKeyPair, message msg: String) -
 ///   - msg: 需要签名的字符串
 /// - Returns: 返回签名后的字符串
 public class func sha128_signature(_ keyPair: MIHKeyPair, message msg: String) -> String?
+
 /// RSA私钥签名，MD5
 ///
 /// - Parameters:
