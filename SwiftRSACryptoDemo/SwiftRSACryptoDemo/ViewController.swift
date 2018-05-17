@@ -193,25 +193,25 @@ class ViewController: UIViewController {
         
         SwiftRSACrypto.unarchiverKeyPair({
             /// 签名
-            let sign1 = SwiftRSACrypto.SHA256_SignKeyPair($0!, message: "11111")
-            let sign2 = SwiftRSACrypto.SHA128_SignKeyPair($0!, message: "22222")
-            let sign3 = SwiftRSACrypto.MD5_SignKeyPair($0!, message: "33333")
+            let sign1 = SwiftRSACrypto.sha256_signature($0!, message: "11111")
+            let sign2 = SwiftRSACrypto.sha128_signature($0!, message: "22222")
+            let sign3 = SwiftRSACrypto.md5_signature($0!, message: "33333")
             print(sign1)
             print(sign2)
             print(sign3)
             
             /// 验签
-            let verStr1 = SwiftRSACrypto.verSignKeyPair($0!, SHA256: sign1!, message: "11111")
-            let verStr2 = SwiftRSACrypto.verSignKeyPair($0!, SHA128: sign2!, message: "22222")
-            let verStr3 = SwiftRSACrypto.verSignKeyPair($0!, MD5: sign3!, message: "33333")
+            let verStr1 = SwiftRSACrypto.verifySignature($0!, SHA256: sign1!, message: "11111")
+            let verStr2 = SwiftRSACrypto.verifySignature($0!, SHA128: sign2!, message: "22222")
+            let verStr3 = SwiftRSACrypto.verifySignature($0!, MD5: sign3!, message: "33333")
             print(verStr1)
             print(verStr2)
             print(verStr3)
             
             ///  ERROR
-            let errStr1 = SwiftRSACrypto.verSignKeyPair($0!, SHA256: sign1!, message: "00000")
-            let errStr2 = SwiftRSACrypto.verSignKeyPair($0!, SHA128: sign3!, message: "22222")
-            let errStr3 = SwiftRSACrypto.verSignKeyPair($0!, MD5: sign2!, message: "33333")
+            let errStr1 = SwiftRSACrypto.verifySignature($0!, SHA256: sign1!, message: "00000")
+            let errStr2 = SwiftRSACrypto.verifySignature($0!, SHA128: sign3!, message: "22222")
+            let errStr3 = SwiftRSACrypto.verifySignature($0!, MD5: sign2!, message: "33333")
             print(errStr1)
             print(errStr2)
             print(errStr3)
