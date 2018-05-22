@@ -6,6 +6,10 @@
 * Xcode 版本：9.3.1
 * 适用于：iOS 8.0+
 
+## Version:
+
+* **版本 1.0.1：**  增加对 objective-c 的支持，在混编的 oc 文件中也能使用
+
 ## Installation：
 
 **不支持 Cocoapods 安装，因为里面有两个 `.a静态库` 不能通过 Cocoapods 验证**
@@ -42,7 +46,7 @@
 
 ```swift
 /// 生成秘钥对
-SwiftRSACrypto.rsa_generate_key({ (keyPair, isExist) in
+SwiftRSACrypto.rsa_generate_key({ (keyPair, _) in
     if let keyPair = keyPair {
         /// 公钥加密 -> 私钥解密
         if let enStr = SwiftRSACrypto.publicEncrypt(keyPair, encryptStr: "Hello World!") {
@@ -66,8 +70,8 @@ let publicKey = """ /* 服务器返回的公钥字符串 */ """
 let privateKey = """ /* 服务器返回的私钥字符串 */ """
 
 /// 设置公钥&&私钥，可以单独设置（一般情况服务器只会给客户端下发公钥）
-SwiftRSACrypto.keyPair({ (keyPair) in
-    if let keyPair = keyPair {
+SwiftRSACrypto.keyPair({
+    if let keyPair = $0 {
         /// 公钥加密 -> 私钥解密
         if let enStr = SwiftRSACrypto.publicEncrypt(keyPair, encryptStr: "Hello World!") {
             if let deStr = SwiftRSACrypto.privateDecrypt(keyPair, decryptStr: enStr) {
@@ -85,7 +89,7 @@ SwiftRSACrypto.keyPair({ (keyPair) in
     }
 }, publicKey: publicKey, privateKey: privateKey)
 ```
-* 更多示例可以下载 Demo 查看
+* 更多示例请下载 Demo 查看
 
 ## Interface：
 
@@ -98,7 +102,7 @@ SwiftRSACrypto.keyPair({ (keyPair) in
 /// - Parameters:
 ///   - callback: 回调生成的密钥对模型，秘钥size为 1024 字节
 ///   - fileName: 归档到沙盒时设置的文件名，如果没有归档，填nil
-public class func rsa_generate_key(_ callback: KeyPairExist, archiverFileName fileName: String?) -> Void
+@objc public class func rsa_generate_key(_ callback: KeyPairExist, archiverFileName fileName: String?) -> Void
 
 /// 生成RSA密钥对
 ///
@@ -106,7 +110,7 @@ public class func rsa_generate_key(_ callback: KeyPairExist, archiverFileName fi
 ///   - callback: 回调生成的密钥对模型
 ///   - keySize: 枚举，可指定生成的秘钥大小
 ///   - fileName: 归档到沙盒时设置的文件名，如果没有归档，填nil
-public class func rsa_generate_key(_ callback: KeyPairExist, ofKeySize keySize: MIHRSAKeySize, archiverFileName fileName: String?) -> Void
+@objc public class func rsa_generate_key(_ callback: KeyPairExist, ofKeySize keySize: MIHRSAKeySize, archiverFileName fileName: String?) -> Void
 
 // MARK: - 私钥加密，公钥解密
 
@@ -116,7 +120,7 @@ public class func rsa_generate_key(_ callback: KeyPairExist, ofKeySize keySize: 
 ///   - keyPair: 密钥对模型
 ///   - dataStr: 需加密的字符串
 /// - Returns: 返回加密后的密文字符串
-public class func privateEncrypt(_ keyPair: MIHKeyPair, encryptStr dataStr: String) -> String?
+@objc public class func privateEncrypt(_ keyPair: MIHKeyPair, encryptStr dataStr: String) -> String?
 
 /// 公钥解密
 ///
@@ -124,7 +128,7 @@ public class func privateEncrypt(_ keyPair: MIHKeyPair, encryptStr dataStr: Stri
 ///   - keyPair: 密钥对模型
 ///   - dataStr: 需解密的密文字符串
 /// - Returns: 返回解密后的原文字符串
-public class func publicDecrypt(_ keyPair: MIHKeyPair, decryptStr dataStr: String) -> String?
+@objc public class func publicDecrypt(_ keyPair: MIHKeyPair, decryptStr dataStr: String) -> String?
 
 // MARK: - 公钥加密，私钥解密
 
@@ -134,7 +138,7 @@ public class func publicDecrypt(_ keyPair: MIHKeyPair, decryptStr dataStr: Strin
 ///   - keyPair: 密钥对模型
 ///   - dataStr: 需加密的字符串
 /// - Returns: 返回加密后的密文字符串
-public class func publicEncrypt(_ keyPair: MIHKeyPair, encryptStr dataStr: String) -> String?
+@objc public class func publicEncrypt(_ keyPair: MIHKeyPair, encryptStr dataStr: String) -> String?
 
 /// 私钥解密
 ///
@@ -142,7 +146,7 @@ public class func publicEncrypt(_ keyPair: MIHKeyPair, encryptStr dataStr: Strin
 ///   - keyPair: 密钥对模型
 ///   - dataStr: 需解密的密文字符串
 /// - Returns: 返回解密后的原文字符串
-public class func privateDecrypt(_ keyPair: MIHKeyPair, decryptStr dataStr: String) -> String?
+@objc public class func privateDecrypt(_ keyPair: MIHKeyPair, decryptStr dataStr: String) -> String?
 
 // MARK: - 归档&&解档->沙盒
 
@@ -152,44 +156,44 @@ public class func privateDecrypt(_ keyPair: MIHKeyPair, decryptStr dataStr: Stri
 ///   - keyPair: 密钥对模型
 ///   - name: 归档到沙盒的文件名，带后缀，例如："keyPair.archiver"
 /// - Returns: 返回归档结果，成功返回 true，否则 false
-public class func archiverKeyPair(_ keyPair: MIHKeyPair, fileName name: String) -> Bool
+@objc public class func archiverKeyPair(_ keyPair: MIHKeyPair, fileName name: String) -> Bool
 
 /// 从沙盒中解档 MIHKeyPair 模型
 ///
 /// - Parameters:
 ///   - callback: 通过闭包回调解档出来的密钥对模型
 ///   - name: 归档时设置的文件名，根据文件名取出归档的数据，不能为 nil
-public class func unarchiverKeyPair(_ callback: KeyPairBlock, fileName name: String) -> Void
+@objc public class func unarchiverKeyPair(_ callback: KeyPairBlock, fileName name: String) -> Void
 
 // MARK: - 存储&&读取->偏好设置
 
 /// 存储 MIHKeyPair 模型到偏好设置
 ///
 /// - Parameter keyPair: 需要存储的密钥对模型
-public class func archiverKeyPair(_ keyPair: MIHKeyPair) -> Void
+@objc public class func archiverKeyPair(_ keyPair: MIHKeyPair) -> Void
 
 /// 从偏好设置中读取 MIHKeyPair 模型
 ///
 /// - Parameter callback: 通过闭包回调读取的密钥对模型
-public class func unarchiverKeyPair(_ callback: KeyPairBlock) -> Void
+@objc public class func unarchiverKeyPair(_ callback: KeyPairBlock) -> Void
 
 // MARK: - 文件操作
 
 /// 判断偏好设置中是否已存在 MIHKeyPair 模型
 ///
 /// - Returns: 如果有返回 true，否则返回 false
-public class func isExistFileWithUserDefaults() -> Bool
+@objc public class func isExistFileWithUserDefaults() -> Bool
 
 /// 从偏好设置中删除 MIHKeyPair 模型
 ///
 /// - Returns: 删除成功返回 true，否则返回 false
-public class func removeFileFromUserDefaults() -> Bool
+@objc public class func removeFileFromUserDefaults() -> Bool
 
 /// 从沙盒中删除文件 (MIHKeyPair 模型)
 ///
 /// - Parameter fileName: 归档到沙盒时设置的文件名
 /// - Returns: 删除成功返回 true，否则返回 false
-public class func removeFileFromDocumentsDir(fileName: String) -> Bool
+@objc public class func removeFileFromDocumentsDir(fileName: String) -> Bool
 
 // MARK: - 获取密钥对字符串
 
@@ -197,13 +201,13 @@ public class func removeFileFromDocumentsDir(fileName: String) -> Bool
 ///
 /// - Parameter keyPair: 密钥对模型
 /// - Returns: 返回公钥字符串
-public class func getPublicKey(_ keyPair: MIHKeyPair) -> String?
+@objc public class func getPublicKey(_ keyPair: MIHKeyPair) -> String?
 
 /// 获取Base64编码后的私钥字符串
 ///
 /// - Parameter keyPair: 密钥对模型
 /// - Returns: 返回私钥字符串
-public class func getPrivateKey(_ keyPair: MIHKeyPair) -> String?
+@objc public class func getPrivateKey(_ keyPair: MIHKeyPair) -> String?
 
 // MARK: - 获取格式化后的密钥对字符串
 
@@ -211,13 +215,13 @@ public class func getPrivateKey(_ keyPair: MIHKeyPair) -> String?
 ///
 /// - Parameter keyPair: 密钥对模型
 /// - Returns: 返回格式化后的公钥字符串
-public class func getFormatterPublicKey(_ keyPair: MIHKeyPair) -> String?
+@objc public class func getFormatterPublicKey(_ keyPair: MIHKeyPair) -> String?
 
 /// 获取格式化后的私钥（即标准的 PKCS#1 格式私钥）
 ///
 /// - Parameter keyPair: 密钥对模型
 /// - Returns: 返回格式化后的私钥字符串
-public class func getFormatterPrivateKey(_ keyPair: MIHKeyPair) -> String?
+@objc public class func getFormatterPrivateKey(_ keyPair: MIHKeyPair) -> String?
 
 // MARK: - 设置服务器返回的秘钥字符串
 
@@ -227,7 +231,7 @@ public class func getFormatterPrivateKey(_ keyPair: MIHKeyPair) -> String?
 ///   - callback: 通过闭包回调 MIHKeyPair 密钥对模型
 ///   - aPublicKey: 公钥字符串，须是去掉头尾和换行符等的纯公钥字符串
 ///   - aPrivateKey: 私钥字符串，须是去掉头尾和换行符等的纯私钥字符串
-public class func keyPair(_ callback: KeyPairBlock, publicKey aPublicKey: String?, privateKey aPrivateKey: String?) -> Void
+@objc public class func keyPair(_ callback: KeyPairBlock, publicKey aPublicKey: String?, privateKey aPrivateKey: String?) -> Void
 
 /// 设置公钥和私钥，当秘钥是由服务器返回的时候，可使用此方法来获得密钥对模型
 ///
@@ -235,7 +239,7 @@ public class func keyPair(_ callback: KeyPairBlock, publicKey aPublicKey: String
 ///   - aPublicKey: 公钥字符串，须是去掉头尾和换行符等的纯公钥字符串
 ///   - aPrivateKey: 私钥字符串，须是去掉头尾和换行符等的纯私钥字符串
 /// - Returns: 返回 MIHKeyPair 密钥对模型
-public class func setPublicKey(_ aPublicKey: String?, privateKey aPrivateKey: String?) -> MIHKeyPair?
+@objc public class func setPublicKey(_ aPublicKey: String?, privateKey aPrivateKey: String?) -> MIHKeyPair?
 
 // MARK: - 私钥签名
 
@@ -245,7 +249,7 @@ public class func setPublicKey(_ aPublicKey: String?, privateKey aPrivateKey: St
 ///   - keyPair: 密钥对模型
 ///   - msg: 需要签名的字符串
 /// - Returns: 返回签名后的字符串
-public class func sha256_signature(_ keyPair: MIHKeyPair, message msg: String) -> String?
+@objc public class func sha256_signature(_ keyPair: MIHKeyPair, message msg: String) -> String?
 
 /// RSA私钥签名，SHA128
 ///
@@ -253,7 +257,7 @@ public class func sha256_signature(_ keyPair: MIHKeyPair, message msg: String) -
 ///   - keyPair: 密钥对模型
 ///   - msg: 需要签名的字符串
 /// - Returns: 返回签名后的字符串
-public class func sha128_signature(_ keyPair: MIHKeyPair, message msg: String) -> String?
+@objc public class func sha128_signature(_ keyPair: MIHKeyPair, message msg: String) -> String?
 
 /// RSA私钥签名，MD5
 ///
@@ -261,7 +265,7 @@ public class func sha128_signature(_ keyPair: MIHKeyPair, message msg: String) -
 ///   - keyPair: 密钥对模型
 ///   - msg: 需要签名的字符串
 /// - Returns: 返回签名后的字符串
-public class func md5_signature(_ keyPair: MIHKeyPair, message msg: String) -> String?
+@objc public class func md5_signature(_ keyPair: MIHKeyPair, message msg: String) -> String?
 
 // MARK: - 公钥验签
 
@@ -272,7 +276,7 @@ public class func md5_signature(_ keyPair: MIHKeyPair, message msg: String) -> S
 ///   - signStr: 需要验证的签名字符串
 ///   - msg: 需要验证的消息字符串
 /// - Returns: 返回验证结果，验证通过返回 true，否则 false
-public class func verifySignature(_ keyPair: MIHKeyPair, SHA256 signStr: String, message msg: String) -> Bool
+@objc public class func verifySignature(_ keyPair: MIHKeyPair, SHA256 signStr: String, message msg: String) -> Bool
 
 /// RSA公钥验签，SHA128
 ///
@@ -281,7 +285,7 @@ public class func verifySignature(_ keyPair: MIHKeyPair, SHA256 signStr: String,
 ///   - signStr: 需要验证的签名字符串
 ///   - msg: 需要验证的消息字符串
 /// - Returns: 返回验证结果，验证通过返回 true，否则 false
-public class func verifySignature(_ keyPair: MIHKeyPair, SHA128 signStr: String, message msg: String) -> Bool
+@objc public class func verifySignature(_ keyPair: MIHKeyPair, SHA128 signStr: String, message msg: String) -> Bool
 
 /// RSA公钥验签，MD5
 ///
@@ -290,6 +294,6 @@ public class func verifySignature(_ keyPair: MIHKeyPair, SHA128 signStr: String,
 ///   - signStr: 需要验证的签名字符串
 ///   - msg: 需要验证的消息字符串
 /// - Returns: 返回验证结果，验证通过返回 true，否则 false
-public class func verifySignature(_ keyPair: MIHKeyPair, MD5 signStr: String, message msg: String) -> Bool
+@objc public class func verifySignature(_ keyPair: MIHKeyPair, MD5 signStr: String, message msg: String) -> Bool
 
 ```
