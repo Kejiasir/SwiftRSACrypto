@@ -45,7 +45,8 @@ import UIKit
 class ViewController: UIViewController {
     
     override func viewDidLoad() {
-        super.viewDidLoad() 
+        super.viewDidLoad()
+        
     }
     
     // MARK: - 生成秘钥对
@@ -117,7 +118,7 @@ class ViewController: UIViewController {
     
     // MARK: - 获取格式化后的秘钥对字符串
     @IBAction func getFmKeyPair(_ sender: Any) {
-        SwiftRSACrypto.rsa_generate_key({ (keyPair, isExist) in
+        SwiftRSACrypto.rsa_generate_key({ (keyPair, _) in
             if let keyPair = keyPair {
                 if let pubKey = SwiftRSACrypto.getFormatterPublicKey(keyPair) {
                     print("fmPubKey = \n\(pubKey)")

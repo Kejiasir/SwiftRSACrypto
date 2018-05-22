@@ -1,3 +1,4 @@
+// SwiftRSACrypto.swift
 //
 // Copyright (c) 2018 Arvin.Yang (https://github.com/Kejiasir/SwiftRSACrypto)
 //
@@ -25,7 +26,7 @@ typealias KeyPairBlock = (_ keyPair: MIHKeyPair?) -> Void
 
 fileprivate let KeyPair = "KeyPair_Key"
 
-enum SignType {
+enum SignType: Int {
     case sha256
     case sha128
     case md5
@@ -40,7 +41,7 @@ class SwiftRSACrypto: NSObject {
     /// - Parameters:
     ///   - callback: 回调生成的密钥对模型，秘钥size为 1024 字节
     ///   - fileName: 归档到沙盒时设置的文件名，如果没有归档，填nil
-    public class func rsa_generate_key(_ callback: KeyPairExist, archiverFileName fileName: String?) -> Void {
+    @objc public class func rsa_generate_key(_ callback: KeyPairExist, archiverFileName fileName: String?) -> Void {
         self.rsa_generate_key(callback, ofKeySize: .key1024, archiverFileName: fileName)
     }
     
@@ -50,11 +51,12 @@ class SwiftRSACrypto: NSObject {
     ///   - callback: 回调生成的密钥对模型
     ///   - keySize: 枚举，可指定生成的秘钥大小
     ///   - fileName: 归档到沙盒时设置的文件名，如果没有归档，填nil
-    public class func rsa_generate_key(_ callback: KeyPairExist, ofKeySize keySize: MIHRSAKeySize, archiverFileName fileName: String?) -> Void {
+    @objc public class func rsa_generate_key(_ callback: KeyPairExist, ofKeySize keySize: MIHRSAKeySize, archiverFileName fileName: String?) -> Void {
         let keyFactory = MIHRSAKeyFactory()
         keyFactory.preferedKeySize = keySize
+        let keyPair = keyFactory.generateKeyPair()
         let isExist = isExistFileWithName(fileName)
-        callback(!isExist ? keyFactory.generateKeyPair() : nil, isExist)
+        callback(!isExist ? keyPair : nil, isExist)
     }
     
     
@@ -66,7 +68,7 @@ class SwiftRSACrypto: NSObject {
     ///   - keyPair: 密钥对模型
     ///   - dataStr: 需加密的字符串
     /// - Returns: 返回加密后的密文字符串
-    public class func privateEncrypt(_ keyPair: MIHKeyPair, encryptStr dataStr: String) -> String? {
+    @objc public class func privateEncrypt(_ keyPair: MIHKeyPair, encryptStr dataStr: String) -> String? {
         if let data = dataStr.data(using: .utf8) {
             if let p = keyPair.private {
                 if let encryptData = try? p.encrypt(data) {
@@ -82,7 +84,7 @@ class SwiftRSACrypto: NSObject {
     ///   - keyPair: 密钥对模型
     ///   - dataStr: 需解密的密文字符串
     /// - Returns: 返回解密后的原文字符串
-    public class func publicDecrypt(_ keyPair: MIHKeyPair, decryptStr dataStr: String) -> String? {
+    @objc public class func publicDecrypt(_ keyPair: MIHKeyPair, decryptStr dataStr: String) -> String? {
         if let data = GTMBase64.decode(strToData(dataStr)) {
             if let p = keyPair.public { 
                 if let decryptData = try? p.decrypt(data) {
@@ -101,7 +103,7 @@ class SwiftRSACrypto: NSObject {
     ///   - keyPair: 密钥对模型
     ///   - dataStr: 需加密的字符串
     /// - Returns: 返回加密后的密文字符串
-    public class func publicEncrypt(_ keyPair: MIHKeyPair, encryptStr dataStr: String) -> String? {
+    @objc public class func publicEncrypt(_ keyPair: MIHKeyPair, encryptStr dataStr: String) -> String? {
         if let data = dataStr.data(using: .utf8) {
             if let p = keyPair.public {
                 if let encryptData = try? p.encrypt(data) {
@@ -117,7 +119,7 @@ class SwiftRSACrypto: NSObject {
     ///   - keyPair: 密钥对模型
     ///   - dataStr: 需解密的密文字符串
     /// - Returns: 返回解密后的原文字符串
-    public class func privateDecrypt(_ keyPair: MIHKeyPair, decryptStr dataStr: String) -> String? {
+    @objc public class func privateDecrypt(_ keyPair: MIHKeyPair, decryptStr dataStr: String) -> String? {
         if let data = GTMBase64.decode(strToData(dataStr)) {
             if let p = keyPair.private {
                 if let decryptData = try? p.decrypt(data) {
@@ -136,7 +138,7 @@ class SwiftRSACrypto: NSObject {
     ///   - keyPair: 密钥对模型
     ///   - name: 归档到沙盒的文件名，带后缀，例如："keyPair.archiver"
     /// - Returns: 返回归档结果，成功返回 true，否则 false
-    public class func archiverKeyPair(_ keyPair: MIHKeyPair, fileName name: String) -> Bool {
+    @objc public class func archiverKeyPair(_ keyPair: MIHKeyPair, fileName name: String) -> Bool {
         guard let path = documentsDir() else { return false }
         let filePath = (path as NSString).appendingPathComponent(name)
         return NSKeyedArchiver.archiveRootObject(keyPair, toFile: filePath)
@@ -147,7 +149,7 @@ class SwiftRSACrypto: NSObject {
     /// - Parameters:
     ///   - callback: 通过闭包回调解档出来的密钥对模型
     ///   - name: 归档时设置的文件名，根据文件名取出归档的数据，不能为 nil
-    public class func unarchiverKeyPair(_ callback: KeyPairBlock, fileName name: String) -> Void {
+    @objc public class func unarchiverKeyPair(_ callback: KeyPairBlock, fileName name: String) -> Void {
         guard let path = documentsDir() else { return }
         let filePath = (path as NSString).appendingPathComponent(name)
         callback(NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as? MIHKeyPair)
@@ -159,7 +161,7 @@ class SwiftRSACrypto: NSObject {
     /// 存储 MIHKeyPair 模型到偏好设置
     ///
     /// - Parameter keyPair: 需要存储的密钥对模型
-    public class func archiverKeyPair(_ keyPair: MIHKeyPair) -> Void {
+    @objc public class func archiverKeyPair(_ keyPair: MIHKeyPair) -> Void {
         let data = NSKeyedArchiver.archivedData(withRootObject: keyPair)
         UserDefaults.standard.set(data, forKey: KeyPair)
     }
@@ -167,7 +169,7 @@ class SwiftRSACrypto: NSObject {
     /// 从偏好设置中读取 MIHKeyPair 模型
     ///
     /// - Parameter callback: 通过闭包回调读取的密钥对模型
-    public class func unarchiverKeyPair(_ callback: KeyPairBlock) -> Void {
+    @objc public class func unarchiverKeyPair(_ callback: KeyPairBlock) -> Void {
         let data = UserDefaults.standard.object(forKey: KeyPair) as! Data
         callback(NSKeyedUnarchiver.unarchiveObject(with: data) as? MIHKeyPair)
     }
@@ -178,14 +180,14 @@ class SwiftRSACrypto: NSObject {
     /// 判断偏好设置中是否已存在 MIHKeyPair 模型
     ///
     /// - Returns: 如果有返回 true，否则返回 false
-    public class func isExistFileWithUserDefaults() -> Bool {
+    @objc public class func isExistFileWithUserDefaults() -> Bool {
         return (UserDefaults.standard.object(forKey: KeyPair) != nil) ? true : false
     }
     
     /// 从偏好设置中删除 MIHKeyPair 模型
     ///
     /// - Returns: 删除成功返回 true，否则返回 false
-    public class func removeFileFromUserDefaults() -> Bool {
+    @objc public class func removeFileFromUserDefaults() -> Bool {
         UserDefaults.standard.removeObject(forKey: KeyPair)
         return !self.isExistFileWithUserDefaults()
     }
@@ -194,7 +196,7 @@ class SwiftRSACrypto: NSObject {
     ///
     /// - Parameter fileName: 归档到沙盒时设置的文件名
     /// - Returns: 删除成功返回 true，否则返回 false
-    public class func removeFileFromDocumentsDir(fileName: String) -> Bool {
+    @objc public class func removeFileFromDocumentsDir(fileName: String) -> Bool {
         guard let path = documentsDir() else { return false }
         return ((try? FileManager.default.removeItem(atPath: path)) != nil)
     }
@@ -208,7 +210,7 @@ class SwiftRSACrypto: NSObject {
     ///
     /// - Parameter keyPair: 密钥对模型
     /// - Returns: 返回公钥字符串
-    public class func getPublicKey(_ keyPair: MIHKeyPair) -> String? {
+    @objc public class func getPublicKey(_ keyPair: MIHKeyPair) -> String? {
         if let p = keyPair.public {
             if let data = p.dataValue() {
                 return dataToStr(GTMBase64.encode(data))
@@ -223,7 +225,7 @@ class SwiftRSACrypto: NSObject {
     ///
     /// - Parameter keyPair: 密钥对模型
     /// - Returns: 返回私钥字符串
-    public class func getPrivateKey(_ keyPair: MIHKeyPair) -> String? {
+    @objc public class func getPrivateKey(_ keyPair: MIHKeyPair) -> String? {
         if let p = keyPair.private {
             if let data = p.dataValue() {
                 let encodeData = GTMBase64.encode(data)
@@ -248,7 +250,7 @@ class SwiftRSACrypto: NSObject {
     ///
     /// - Parameter keyPair: 密钥对模型
     /// - Returns: 返回格式化后的公钥字符串
-    public class func getFormatterPublicKey(_ keyPair: MIHKeyPair) -> String? {
+    @objc public class func getFormatterPublicKey(_ keyPair: MIHKeyPair) -> String? {
         guard let publicKey = self.getPublicKey(keyPair) else { return nil }
         return formatterPublicKey(publicKey)
     }
@@ -274,7 +276,7 @@ class SwiftRSACrypto: NSObject {
     ///
     /// - Parameter keyPair: 密钥对模型
     /// - Returns: 返回格式化后的私钥字符串
-    public class func getFormatterPrivateKey(_ keyPair: MIHKeyPair) -> String? {
+    @objc public class func getFormatterPrivateKey(_ keyPair: MIHKeyPair) -> String? {
         guard let privateKey = self.getPrivateKey(keyPair) else { return nil }
         return formatterPrivateKey(privateKey)
     }
@@ -288,7 +290,7 @@ class SwiftRSACrypto: NSObject {
     ///   - callback: 通过闭包回调 MIHKeyPair 密钥对模型
     ///   - aPublicKey: 公钥字符串，须是去掉头尾和换行符等的纯公钥字符串
     ///   - aPrivateKey: 私钥字符串，须是去掉头尾和换行符等的纯私钥字符串
-    public class func keyPair(_ callback: KeyPairBlock, publicKey aPublicKey: String?, privateKey aPrivateKey: String?) -> Void {
+    @objc public class func keyPair(_ callback: KeyPairBlock, publicKey aPublicKey: String?, privateKey aPrivateKey: String?) -> Void {
         callback(self.setPublicKey(aPublicKey, privateKey: aPrivateKey))
     }
     
@@ -298,7 +300,7 @@ class SwiftRSACrypto: NSObject {
     ///   - aPublicKey: 公钥字符串，须是去掉头尾和换行符等的纯公钥字符串
     ///   - aPrivateKey: 私钥字符串，须是去掉头尾和换行符等的纯私钥字符串
     /// - Returns: 返回 MIHKeyPair 密钥对模型
-    public class func setPublicKey(_ aPublicKey: String?, privateKey aPrivateKey: String?) -> MIHKeyPair? {
+    @objc public class func setPublicKey(_ aPublicKey: String?, privateKey aPrivateKey: String?) -> MIHKeyPair? {
         if aPublicKey == nil && aPrivateKey == nil {
             return nil
         }
@@ -329,7 +331,7 @@ class SwiftRSACrypto: NSObject {
     ///   - keyPair: 密钥对模型
     ///   - msg: 需要签名的字符串
     /// - Returns: 返回签名后的字符串
-    public class func sha256_signature(_ keyPair: MIHKeyPair, message msg: String) -> String? {
+    @objc public class func sha256_signature(_ keyPair: MIHKeyPair, message msg: String) -> String? {
         return dataToStr(GTMBase64.encode(sign(keyPair, msg, .sha256)))
     }
     
@@ -339,7 +341,7 @@ class SwiftRSACrypto: NSObject {
     ///   - keyPair: 密钥对模型
     ///   - msg: 需要签名的字符串
     /// - Returns: 返回签名后的字符串
-    public class func sha128_signature(_ keyPair: MIHKeyPair, message msg: String) -> String? {
+    @objc public class func sha128_signature(_ keyPair: MIHKeyPair, message msg: String) -> String? {
         return dataToStr(GTMBase64.encode(sign(keyPair, msg, .sha128)))
     }
     
@@ -349,7 +351,7 @@ class SwiftRSACrypto: NSObject {
     ///   - keyPair: 密钥对模型
     ///   - msg: 需要签名的字符串
     /// - Returns: 返回签名后的字符串
-    public class func md5_signature(_ keyPair: MIHKeyPair, message msg: String) -> String? {
+    @objc public class func md5_signature(_ keyPair: MIHKeyPair, message msg: String) -> String? {
         return dataToStr(GTMBase64.encode(sign(keyPair, msg, .md5)))
     }
     
@@ -363,7 +365,7 @@ class SwiftRSACrypto: NSObject {
     ///   - signStr: 需要验证的签名字符串
     ///   - msg: 需要验证的消息字符串
     /// - Returns: 返回验证结果，验证通过返回 true，否则 false
-    public class func verifySignature(_ keyPair: MIHKeyPair, SHA256 signStr: String, message msg: String) -> Bool {
+    @objc public class func verifySignature(_ keyPair: MIHKeyPair, SHA256 signStr: String, message msg: String) -> Bool {
         guard let data = GTMBase64.decode(strToData(signStr)) else { return false }
         return keyPair.public.verifySignature(withSHA256: data, message: strToData(msg))
     }
@@ -375,7 +377,7 @@ class SwiftRSACrypto: NSObject {
     ///   - signStr: 需要验证的签名字符串
     ///   - msg: 需要验证的消息字符串
     /// - Returns: 返回验证结果，验证通过返回 true，否则 false
-    public class func verifySignature(_ keyPair: MIHKeyPair, SHA128 signStr: String, message msg: String) -> Bool {
+    @objc public class func verifySignature(_ keyPair: MIHKeyPair, SHA128 signStr: String, message msg: String) -> Bool {
         guard let data = GTMBase64.decode(strToData(signStr)) else { return false }
         return keyPair.public.verifySignature(withSHA128: data, message: strToData(msg))
     }
@@ -387,7 +389,7 @@ class SwiftRSACrypto: NSObject {
     ///   - signStr: 需要验证的签名字符串
     ///   - msg: 需要验证的消息字符串
     /// - Returns: 返回验证结果，验证通过返回 true，否则 false
-    public class func verifySignature(_ keyPair: MIHKeyPair, MD5 signStr: String, message msg: String) -> Bool {
+    @objc public class func verifySignature(_ keyPair: MIHKeyPair, MD5 signStr: String, message msg: String) -> Bool {
         guard let data = GTMBase64.decode(strToData(signStr)) else { return false }
         return keyPair.public.verifySignature(withMD5: data, message: strToData(msg))
     }
